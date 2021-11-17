@@ -10,6 +10,8 @@ from ecapture import ecapture as ec
 import wolframalpha
 import json
 import requests
+import pyjokes
+import pyautogui
 
 
 print('Loading your AI personal assistant - G One')
@@ -17,7 +19,7 @@ print('Loading your AI personal assistant - G One')
 engine=pyttsx3.init('sapi5')
 voices=engine.getProperty('voices')
 engine.setProperty('voice','voices[0].id')
-engine.setProperty('rate', 135)
+engine.setProperty('rate', 140)
 
 
 def speak(text):
@@ -59,7 +61,7 @@ if __name__=='__main__':
 
 
     while True:
-        speak("Tell me how can I help you now?")
+        speak("Tell me how can I help you?")
         statement = takeCommand().lower()
         if statement==0:
             continue
@@ -93,6 +95,17 @@ if __name__=='__main__':
             webbrowser.open_new_tab("gmail.com")
             speak("Google Mail open now")
             time.sleep(5)
+
+        elif 'joke' in statement:
+            random_joke = pyjokes.get_joke()
+            #print(random_joke)
+            speak(random_joke)
+            time.sleep(5)
+        
+        elif 'screenshot' in statement:
+            image = pyautogui.screenshot()
+            image.save('screenshot.png')
+            speak('Screenshot taken.')
 
         elif "weather" in statement:
             api_key="9d0e0d5c4af1b4f9cb1420c1ee04f0c1"
@@ -173,6 +186,24 @@ if __name__=='__main__':
         elif "book" in statement:
             speak("ok")
             subprocess.call(" python Audio_book.py", shell=True)
+
+        elif "track a mobile number" in statement or "track number" in statement:
+            speak("ok")
+            subprocess.call(" python mobile_tracking.py", shell=True)  
+            time.sleep(10)  
+
+        elif "download insta dp" in statement or "instagram dp" in statement:
+            speak("ok")
+            subprocess.call(" python insta.py", shell=True)  
+            time.sleep(10)
+        
+        
+        elif "create a google meet" in statement:
+            speak("ok")
+            url="https://new.meet"
+            webbrowser.open_new_tab(url)  
+            speak("google meet has been created")       
+            time.sleep(5)
 
         elif  statement!="none":
             statement = statement.replace("search", "")
